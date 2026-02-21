@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 die()
 {
@@ -182,10 +182,10 @@ download_and_unpack()
     redownload_package "$LINK" "$ARCHIVE_NAME"
 
     echo "...unpacking"
-    if [ "$ARCHIVE_TYPE" == 'zip' ]
+    if [ "$ARCHIVE_TYPE" = 'zip' ]
     then
         unzip -q -n "$ARCHIVE_NAME"  || die
-    elif [ "$ARCHIVE_TYPE" == 'tar.gz' ] || [ "$ARCHIVE_TYPE" == 'tgz' ]
+    elif [ "$ARCHIVE_TYPE" = 'tar.gz' ] || [ "$ARCHIVE_TYPE" = 'tgz' ]
     then
         tar --extract --gzip --file="$ARCHIVE_NAME"
     else
@@ -238,7 +238,7 @@ get_archive_extension()
 
     local DOUBLE_EXT=$( echo "$FILE" | rev | cut -d \. -f -2 | rev )
 
-    if [ "$DOUBLE_EXT" == 'tar.gz' ]
+    if [ "$DOUBLE_EXT" = 'tar.gz' ]
     then
         echo "$DOUBLE_EXT"
         return
@@ -246,7 +246,7 @@ get_archive_extension()
 
     local EXT=$( echo "$DOUBLE_EXT" | cut -d \. -f 2 )
 
-    if [ "$EXT" == 'zip' ] || [ "$EXT" == 'tgz' ]
+    if [ "$EXT" = 'zip' ] || [ "$EXT" = 'tgz' ]
     then
         echo "$EXT"       
     fi
@@ -258,27 +258,27 @@ run_tests()
     local ARCHIVE_NAME
 
     ARCHIVE_NAME=$( get_archive_file_name "http://charm.cs.illinois.edu/distrib/charm-6.7.1.tar.gz" "foo" "0.1" )
-    [ "$ARCHIVE_NAME" == 'charm-6.7.1.tar.gz' ] || die "Test failed, wrong ARCHIVE_NAME: ${ARCHIVE_NAME}"
+    [ "$ARCHIVE_NAME" = 'charm-6.7.1.tar.gz' ] || die "Test failed, wrong ARCHIVE_NAME: ${ARCHIVE_NAME}"
 
     ARCHIVE_NAME=$( get_archive_file_name "https://www.threadingbuildingblocks.org/sites/default/bla_bla_bla/tbb44_20160526oss_win.zip" "foo" "0.1" )
-    [ "$ARCHIVE_NAME" == 'tbb44_20160526oss_win.zip' ] || die "Test failed, wrong ARCHIVE_NAME: ${ARCHIVE_NAME}"
+    [ "$ARCHIVE_NAME" = 'tbb44_20160526oss_win.zip' ] || die "Test failed, wrong ARCHIVE_NAME: ${ARCHIVE_NAME}"
 
     ARCHIVE_NAME=$( get_archive_file_name "https://github.com/philsquared/Catch/archive/v1.5.3.zip" "catch" "1.5.3" )
-    [ "$ARCHIVE_NAME" == 'catch-1.5.3.zip' ] || die "Test failed, wrong ARCHIVE_NAME: ${ARCHIVE_NAME}"
+    [ "$ARCHIVE_NAME" = 'catch-1.5.3.zip' ] || die "Test failed, wrong ARCHIVE_NAME: ${ARCHIVE_NAME}"
 
     ARCHIVE_NAME=$( get_archive_file_name  "https://github.com/sparsehash/sparsehash/archive/sparsehash-2.0.3.zip" "sparsehash" "2.0.3" )
-    [ "$ARCHIVE_NAME" == 'sparsehash-2.0.3.zip' ] || die "Test failed, wrong ARCHIVE_NAME: ${ARCHIVE_NAME}"
+    [ "$ARCHIVE_NAME" = 'sparsehash-2.0.3.zip' ] || die "Test failed, wrong ARCHIVE_NAME: ${ARCHIVE_NAME}"
 
     # test get_archive_extension
     local EXT
     EXT=$( get_archive_extension 'charm-6.7.1.tar.gz' )
-    [ "$EXT" == 'tar.gz' ] || die "Test failed, wrong EXT: ${EXT}"
+    [ "$EXT" = 'tar.gz' ] || die "Test failed, wrong EXT: ${EXT}"
 
     EXT=$( get_archive_extension 'catch-1.5.3.zip' )
-    [ "$EXT" == 'zip' ] || die "Test failed, wrong EXT: ${EXT}"
+    [ "$EXT" = 'zip' ] || die "Test failed, wrong EXT: ${EXT}"
 
     EXT=$( get_archive_extension 'foo-1.5.3.bar' )
-    [ "$EXT" == '' ] || die "Test failed, EXT should be empty: ${EXT}"
+    [ "$EXT" = '' ] || die "Test failed, EXT should be empty: ${EXT}"
 }
 
 run_tests
