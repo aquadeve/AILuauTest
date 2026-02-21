@@ -59,3 +59,38 @@ public:
         std::function<void(const std::string &, std::vector<uint8_t> &)> pullSensoMotoricData
     ) override;
 };
+
+class PicoLmBody : public Body
+{
+public:
+    static const char *Type;
+
+    explicit PicoLmBody(json &params);
+    virtual ~PicoLmBody();
+
+    virtual void pup(PUP::er &p) override;
+
+    virtual const char *GetType() override;
+
+    virtual void Simulate(
+        size_t bodyStep,
+        std::function<void(const std::string &, std::vector<uint8_t> &)> pushSensoMotoricData,
+        std::function<void(const std::string &, std::vector<uint8_t> &)> pullSensoMotoricData
+    ) override;
+
+private:
+    std::string mPromptActuatorName;
+    std::string mResponseSensorName;
+    std::string mPicoLmBinaryPath;
+    std::string mPicoLmModelPath;
+    std::string mFallbackPrefix;
+    size_t mMaxGeneratedTokens;
+    size_t mThreadCount;
+    size_t mContextSize;
+    double mTemperature;
+    double mTopP;
+
+    std::string ReadText(const std::vector<uint8_t> &data) const;
+    std::vector<uint8_t> EncodeText(const std::string &text, size_t size) const;
+    std::string TryGenerateWithPicoLm(const std::string &prompt) const;
+};
