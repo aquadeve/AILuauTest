@@ -2,6 +2,7 @@
 #include "components.h"
 #include "gen_spec_init.h"
 #include "threshold_init.h"
+#include "luau_model.h"
 #include "synapse.h"
 #include "spike.h"
 
@@ -41,4 +42,5 @@ void InitializeComponents()
 
     GenSpecModel::Init(neuronFactory, regionFactory, brainFactory);
     ThresholdModel::Init(neuronFactory, regionFactory, brainFactory);
+    LuauModel::Init(neuronFactory, regionFactory, brainFactory);
 }
